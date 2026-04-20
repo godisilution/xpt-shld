@@ -1,0 +1,901 @@
+/* ═══════════════════════════════════════════════════════════════
+   Xpecto Shield — Dashboard Design System CSS
+   Based on Cyberpunk / Glitch Design System
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Google Fonts ──────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap');
+
+/* ─── Design Tokens (CSS Custom Properties) ─────────────────── */
+:root {
+  /* Colors */
+  --shield-bg: #0a0a0f;
+  --shield-fg: #e0e0e0;
+  --shield-card: #12121a;
+  --shield-muted: #1c1c2e;
+  --shield-muted-fg: #6b7280;
+  --shield-accent: #00ff88;
+  --shield-accent-secondary: #ff00ff;
+  --shield-accent-tertiary: #00d4ff;
+  --shield-border: #2a2a3a;
+  --shield-input: #12121a;
+  --shield-destructive: #ff3366;
+  --shield-warning: #ffaa00;
+
+  /* Typography */
+  --shield-font-heading: 'Orbitron', 'Share Tech Mono', monospace;
+  --shield-font-body: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  --shield-font-accent: 'Share Tech Mono', monospace;
+
+  /* Shadows */
+  --shield-glow: 0 0 5px #00ff88, 0 0 10px #00ff8840;
+  --shield-glow-sm: 0 0 3px #00ff88, 0 0 6px #00ff8830;
+  --shield-glow-lg: 0 0 10px #00ff88, 0 0 20px #00ff8860, 0 0 40px #00ff8830;
+  --shield-glow-secondary: 0 0 5px #ff00ff, 0 0 20px #ff00ff60;
+  --shield-glow-tertiary: 0 0 5px #00d4ff, 0 0 20px #00d4ff60;
+  --shield-glow-danger: 0 0 5px #ff3366, 0 0 20px #ff336660;
+
+  /* Chamfer */
+  --shield-chamfer: polygon(0 10px, 10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px));
+  --shield-chamfer-sm: polygon(0 6px, 6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px));
+  --shield-chamfer-tl: polygon(0 10px, 10px 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* ─── Base Styles ───────────────────────────────────────────── */
+.shield-dashboard {
+  min-height: 100vh;
+  background: var(--shield-bg);
+  color: var(--shield-fg);
+  font-family: var(--shield-font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scanline overlay */
+.shield-dashboard::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Grid background */
+.shield-dashboard::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 255, 136, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 136, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Layout ────────────────────────────────────────────────── */
+.shield-layout {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.shield-sidebar {
+  width: 260px;
+  background: var(--shield-card);
+  border-right: 1px solid var(--shield-border);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.shield-sidebar-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--shield-border);
+}
+
+.shield-sidebar-logo {
+  font-family: var(--shield-font-heading);
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: var(--shield-accent);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.shield-sidebar-logo .logo-icon {
+  font-size: 1.4rem;
+}
+
+.shield-sidebar-version {
+  font-family: var(--shield-font-accent);
+  font-size: 0.65rem;
+  color: var(--shield-muted-fg);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 0.25rem;
+}
+
+.shield-sidebar-nav {
+  flex: 1;
+  padding: 1rem 0;
+}
+
+.shield-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1.5rem;
+  color: var(--shield-muted-fg);
+  text-decoration: none;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: var(--shield-font-accent);
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 2px solid transparent;
+}
+
+.shield-nav-item:hover {
+  color: var(--shield-accent);
+  background: rgba(0, 255, 136, 0.05);
+  border-left-color: rgba(0, 255, 136, 0.3);
+}
+
+.shield-nav-item.active {
+  color: var(--shield-accent);
+  background: rgba(0, 255, 136, 0.08);
+  border-left-color: var(--shield-accent);
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+}
+
+.shield-nav-item .nav-icon {
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+}
+
+.shield-sidebar-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--shield-border);
+}
+
+.shield-main {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+/* ─── Page Header ───────────────────────────────────────────── */
+.shield-page-header {
+  margin-bottom: 2rem;
+}
+
+.shield-page-title {
+  font-family: var(--shield-font-heading);
+  font-weight: 800;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--shield-fg);
+}
+
+.shield-page-subtitle {
+  font-family: var(--shield-font-accent);
+  font-size: 0.75rem;
+  color: var(--shield-muted-fg);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 0.25rem;
+}
+
+/* ─── Cards ─────────────────────────────────────────────────── */
+.shield-card {
+  background: var(--shield-card);
+  border: 1px solid var(--shield-border);
+  clip-path: var(--shield-chamfer);
+  padding: 1.5rem;
+  position: relative;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.shield-card--hoverable:hover {
+  border-color: var(--shield-accent);
+  box-shadow: var(--shield-glow-sm);
+  transform: translateY(-1px);
+}
+
+.shield-card--terminal {
+  background: var(--shield-bg);
+}
+
+.shield-card--terminal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: var(--shield-muted);
+  border-bottom: 1px solid var(--shield-border);
+  clip-path: var(--shield-chamfer-tl);
+}
+
+.shield-card--holographic {
+  background: rgba(28, 28, 46, 0.3);
+  border-color: rgba(0, 255, 136, 0.3);
+  box-shadow: var(--shield-glow-sm);
+  backdrop-filter: blur(4px);
+}
+
+.shield-card-title {
+  font-family: var(--shield-font-heading);
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--shield-muted-fg);
+  margin-bottom: 0.75rem;
+}
+
+/* ─── Stat Cards ────────────────────────────────────────────── */
+.shield-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.shield-stat-card {
+  background: var(--shield-card);
+  border: 1px solid var(--shield-border);
+  clip-path: var(--shield-chamfer-sm);
+  padding: 1.25rem;
+  position: relative;
+  transition: all 200ms;
+}
+
+.shield-stat-card:hover {
+  border-color: var(--shield-accent);
+  box-shadow: var(--shield-glow-sm);
+}
+
+.shield-stat-label {
+  font-family: var(--shield-font-accent);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--shield-muted-fg);
+  margin-bottom: 0.5rem;
+}
+
+.shield-stat-value {
+  font-family: var(--shield-font-heading);
+  font-weight: 800;
+  font-size: 1.75rem;
+  color: var(--shield-accent);
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+  line-height: 1;
+}
+
+.shield-stat-value--danger {
+  color: var(--shield-destructive);
+  text-shadow: 0 0 10px rgba(255, 51, 102, 0.3);
+}
+
+.shield-stat-value--warning {
+  color: var(--shield-warning);
+  text-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
+}
+
+.shield-stat-value--secondary {
+  color: var(--shield-accent-secondary);
+  text-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+}
+
+.shield-stat-value--tertiary {
+  color: var(--shield-accent-tertiary);
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+.shield-stat-delta {
+  font-size: 0.7rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.shield-stat-delta--up {
+  color: var(--shield-destructive);
+}
+
+.shield-stat-delta--down {
+  color: var(--shield-accent);
+}
+
+/* ─── Tables ────────────────────────────────────────────────── */
+.shield-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--shield-border);
+  clip-path: var(--shield-chamfer);
+}
+
+.shield-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.shield-table th {
+  font-family: var(--shield-font-accent);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--shield-muted-fg);
+  background: var(--shield-muted);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--shield-border);
+  white-space: nowrap;
+}
+
+.shield-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(42, 42, 58, 0.5);
+  color: var(--shield-fg);
+}
+
+.shield-table tr:hover td {
+  background: rgba(0, 255, 136, 0.03);
+}
+
+.shield-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* ─── Badges ────────────────────────────────────────────────── */
+.shield-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  font-family: var(--shield-font-accent);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border: 1px solid;
+  clip-path: var(--shield-chamfer-sm);
+}
+
+.shield-badge--sqli {
+  color: var(--shield-destructive);
+  border-color: rgba(255, 51, 102, 0.4);
+  background: rgba(255, 51, 102, 0.1);
+}
+
+.shield-badge--xss {
+  color: var(--shield-accent-secondary);
+  border-color: rgba(255, 0, 255, 0.4);
+  background: rgba(255, 0, 255, 0.1);
+}
+
+.shield-badge--lfi {
+  color: var(--shield-accent-tertiary);
+  border-color: rgba(0, 212, 255, 0.4);
+  background: rgba(0, 212, 255, 0.1);
+}
+
+.shield-badge--ssrf {
+  color: var(--shield-warning);
+  border-color: rgba(255, 170, 0, 0.4);
+  background: rgba(255, 170, 0, 0.1);
+}
+
+.shield-badge--path-traversal {
+  color: #9966ff;
+  border-color: rgba(153, 102, 255, 0.4);
+  background: rgba(153, 102, 255, 0.1);
+}
+
+.shield-badge--blocked {
+  color: var(--shield-destructive);
+  border-color: rgba(255, 51, 102, 0.4);
+  background: rgba(255, 51, 102, 0.1);
+}
+
+.shield-badge--logged {
+  color: var(--shield-accent);
+  border-color: rgba(0, 255, 136, 0.4);
+  background: rgba(0, 255, 136, 0.1);
+}
+
+.shield-badge--low {
+  color: var(--shield-accent);
+  border-color: rgba(0, 255, 136, 0.4);
+  background: rgba(0, 255, 136, 0.1);
+}
+
+.shield-badge--medium {
+  color: var(--shield-warning);
+  border-color: rgba(255, 170, 0, 0.4);
+  background: rgba(255, 170, 0, 0.1);
+}
+
+.shield-badge--high {
+  color: var(--shield-destructive);
+  border-color: rgba(255, 51, 102, 0.4);
+  background: rgba(255, 51, 102, 0.1);
+}
+
+.shield-badge--critical {
+  color: #ff0044;
+  border-color: rgba(255, 0, 68, 0.6);
+  background: rgba(255, 0, 68, 0.15);
+  box-shadow: 0 0 5px rgba(255, 0, 68, 0.3);
+  animation: pulse-danger 2s ease-in-out infinite;
+}
+
+@keyframes pulse-danger {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ─── Buttons ───────────────────────────────────────────────── */
+.shield-btn {
+  font-family: var(--shield-font-accent);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 0.5rem 1.25rem;
+  border: 2px solid var(--shield-accent);
+  background: transparent;
+  color: var(--shield-accent);
+  cursor: pointer;
+  clip-path: var(--shield-chamfer-sm);
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.shield-btn:hover {
+  background: var(--shield-accent);
+  color: var(--shield-bg);
+  box-shadow: var(--shield-glow);
+}
+
+.shield-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--shield-bg), 0 0 0 4px var(--shield-accent);
+}
+
+.shield-btn--danger {
+  border-color: var(--shield-destructive);
+  color: var(--shield-destructive);
+}
+
+.shield-btn--danger:hover {
+  background: var(--shield-destructive);
+  color: var(--shield-bg);
+  box-shadow: var(--shield-glow-danger);
+}
+
+.shield-btn--secondary {
+  border-color: var(--shield-accent-secondary);
+  color: var(--shield-accent-secondary);
+}
+
+.shield-btn--secondary:hover {
+  background: var(--shield-accent-secondary);
+  color: var(--shield-bg);
+  box-shadow: var(--shield-glow-secondary);
+}
+
+.shield-btn--ghost {
+  border: none;
+  padding: 0.4rem 0.75rem;
+}
+
+.shield-btn--ghost:hover {
+  background: rgba(0, 255, 136, 0.1);
+  color: var(--shield-accent);
+  box-shadow: none;
+}
+
+.shield-btn--sm {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.6rem;
+}
+
+.shield-btn--filled {
+  background: var(--shield-accent);
+  color: var(--shield-bg);
+  font-weight: 600;
+}
+
+.shield-btn--filled:hover {
+  filter: brightness(1.15);
+  box-shadow: var(--shield-glow-lg);
+}
+
+/* ─── Inputs ────────────────────────────────────────────────── */
+.shield-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.shield-input-prefix {
+  position: absolute;
+  left: 0.75rem;
+  color: var(--shield-accent);
+  font-family: var(--shield-font-body);
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.shield-input {
+  width: 100%;
+  padding: 0.6rem 1rem 0.6rem 2rem;
+  background: var(--shield-input);
+  border: 1px solid var(--shield-border);
+  color: var(--shield-accent);
+  font-family: var(--shield-font-body);
+  font-size: 0.8rem;
+  clip-path: var(--shield-chamfer-sm);
+  transition: all 200ms;
+}
+
+.shield-input::placeholder {
+  color: var(--shield-muted-fg);
+  font-style: italic;
+}
+
+.shield-input:focus {
+  outline: none;
+  border-color: var(--shield-accent);
+  box-shadow: var(--shield-glow-sm);
+}
+
+.shield-select {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  background: var(--shield-input);
+  border: 1px solid var(--shield-border);
+  color: var(--shield-fg);
+  font-family: var(--shield-font-body);
+  font-size: 0.8rem;
+  clip-path: var(--shield-chamfer-sm);
+  cursor: pointer;
+  transition: all 200ms;
+  appearance: none;
+}
+
+.shield-select:focus {
+  outline: none;
+  border-color: var(--shield-accent);
+  box-shadow: var(--shield-glow-sm);
+}
+
+/* ─── Chart Container ───────────────────────────────────────── */
+.shield-chart {
+  background: var(--shield-card);
+  border: 1px solid var(--shield-border);
+  clip-path: var(--shield-chamfer);
+  padding: 1.25rem;
+}
+
+.shield-chart-title {
+  font-family: var(--shield-font-heading);
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--shield-muted-fg);
+  margin-bottom: 1rem;
+}
+
+/* Simple bar chart */
+.shield-bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 120px;
+  padding-top: 0.5rem;
+}
+
+.shield-bar {
+  flex: 1;
+  background: linear-gradient(to top, var(--shield-accent), rgba(0, 255, 136, 0.3));
+  min-width: 8px;
+  border-radius: 1px 1px 0 0;
+  transition: all 200ms;
+  position: relative;
+}
+
+.shield-bar:hover {
+  background: linear-gradient(to top, var(--shield-accent), rgba(0, 255, 136, 0.6));
+  box-shadow: 0 0 6px rgba(0, 255, 136, 0.4);
+}
+
+/* Category distribution (horizontal bars) */
+.shield-category-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.shield-category-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.shield-category-bar-label {
+  font-family: var(--shield-font-accent);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  width: 100px;
+  flex-shrink: 0;
+  color: var(--shield-muted-fg);
+}
+
+.shield-category-bar-track {
+  flex: 1;
+  height: 6px;
+  background: var(--shield-muted);
+  overflow: hidden;
+}
+
+.shield-category-bar-fill {
+  height: 100%;
+  transition: width 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.shield-category-bar-count {
+  font-family: var(--shield-font-body);
+  font-size: 0.75rem;
+  color: var(--shield-fg);
+  width: 40px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ─── Pagination ────────────────────────────────────────────── */
+.shield-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  font-size: 0.75rem;
+}
+
+.shield-pagination-info {
+  color: var(--shield-muted-fg);
+  font-family: var(--shield-font-accent);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.shield-pagination-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ─── Empty State ───────────────────────────────────────────── */
+.shield-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  color: var(--shield-muted-fg);
+  text-align: center;
+}
+
+.shield-empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.shield-empty-text {
+  font-family: var(--shield-font-accent);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* ─── Loading Pulse ─────────────────────────────────────────── */
+.shield-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.shield-loading-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.shield-loading-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--shield-accent);
+  animation: loadingPulse 1.2s ease-in-out infinite;
+}
+
+.shield-loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.shield-loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes loadingPulse {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ─── Status Indicator ──────────────────────────────────────── */
+.shield-status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.shield-status-dot--active {
+  background: var(--shield-accent);
+  box-shadow: 0 0 6px var(--shield-accent);
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+.shield-status-dot--inactive {
+  background: var(--shield-muted-fg);
+}
+
+.shield-status-dot--danger {
+  background: var(--shield-destructive);
+  box-shadow: 0 0 6px var(--shield-destructive);
+  animation: statusPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ─── Glitch Title ──────────────────────────────────────────── */
+.shield-glitch {
+  position: relative;
+  display: inline-block;
+}
+
+.shield-glitch::before,
+.shield-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.shield-glitch::before {
+  color: var(--shield-accent-secondary);
+  animation: glitchLeft 3s infinite;
+  clip-path: inset(0 0 60% 0);
+}
+
+.shield-glitch::after {
+  color: var(--shield-accent-tertiary);
+  animation: glitchRight 3s infinite;
+  clip-path: inset(60% 0 0 0);
+}
+
+@keyframes glitchLeft {
+  0%, 90%, 100% { transform: translate(0); }
+  92% { transform: translate(-2px, 1px); }
+  94% { transform: translate(1px, -1px); }
+  96% { transform: translate(-1px, 0); }
+}
+
+@keyframes glitchRight {
+  0%, 90%, 100% { transform: translate(0); }
+  91% { transform: translate(1px, 1px); }
+  93% { transform: translate(-1px, -1px); }
+  95% { transform: translate(2px, 0); }
+}
+
+/* ─── Neon Divider ──────────────────────────────────────────── */
+.shield-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--shield-accent), transparent);
+  margin: 1.5rem 0;
+  opacity: 0.4;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────── */
+.shield-dashboard ::-webkit-scrollbar {
+  width: 6px;
+}
+
+.shield-dashboard ::-webkit-scrollbar-track {
+  background: var(--shield-bg);
+}
+
+.shield-dashboard ::-webkit-scrollbar-thumb {
+  background: var(--shield-border);
+  border-radius: 3px;
+}
+
+.shield-dashboard ::-webkit-scrollbar-thumb:hover {
+  background: var(--shield-accent);
+}
+
+/* ─── Responsive ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .shield-sidebar {
+    display: none;
+  }
+
+  .shield-main {
+    padding: 1rem;
+  }
+
+  .shield-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .shield-table {
+    font-size: 0.7rem;
+  }
+}
+
+/* ─── Reduced Motion ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .shield-glitch::before,
+  .shield-glitch::after {
+    animation: none;
+  }
+
+  .shield-loading-dot {
+    animation: none;
+    opacity: 0.5;
+  }
+
+  .shield-status-dot--active,
+  .shield-status-dot--danger {
+    animation: none;
+  }
+
+  .shield-badge--critical {
+    animation: none;
+  }
+}
